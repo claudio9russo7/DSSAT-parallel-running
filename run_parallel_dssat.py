@@ -8,16 +8,13 @@ import subprocess
 import glob
 from multiprocessing import Process
 
-#Here we define path for DSSAT, for input file and the number_groups!
-POINTS_CSV = r"C:\Users\Claudio\PycharmProjects\DSSAT_FileX_creator\run_example.csv"
-SOIL_HORIZON_ADJUSTED = r"C:\Users\Claudio\PycharmProjects\DSSAT_FileX_creator\soil_initial_conditions.csv"
+POINTS_CSV = r"C:\Users\Claudio\PycharmProjects\DSSAT_FileX_creator\Data_Crops_sequence_prov.csv"
+SOIL_HORIZON_ADJUSTED = r"C:\Users\Claudio\PycharmProjects\DSSAT_FileX_creator\soil_horizons_adjusted_new.csv"
 WORK_DIR = r"C:\DSSAT48\Sequence"
 BATCH_NAME = "DSSBatch.v48"
 MODEL_EXE = r"C:\DSSAT48\DSCSM048.EXE"
 SKIPROWS_OSU = 3
-
-#IMPORTANT MODIFY THIS NUMBER BASED ON THE NUMBER OF YOUR CORE-1
-NUMBER_GROUPS = 9
+NUMBER_GROUPS = 7
 
 TEMP_CSV_DIR = os.path.join(WORK_DIR, "temp_csv_osu")
 os.makedirs(TEMP_CSV_DIR, exist_ok=True)
@@ -80,11 +77,67 @@ def run_group(gid):
         point_id = rec['code_nod']
         sqx_path = os.path.join(gd, sqx_name)
         txt = dsf.dssat_file_seq_creator(
-            rec["code_nod"], sqx_name,
-            rec["Soil_id"], rec["WS"], rec["Dem_class"],
-            rec["Date_IC"], SOIL_HORIZON_ADJUSTED,
-            rec["Planting_date_s"], rec["Planting_date_f"],
-            rec["tillage_day_1"], rec["tillage_day_2"]
+            rec['code_nod'],
+            sqx_name,
+            rec['Soil_id'],
+            rec['Cultivar_code_1'],
+            rec['Cultivar_code_2'],
+            rec['Cultivar_code_3'],
+            rec['Genotype_code_1'],
+            rec['Genotype_code_2'],
+            rec['Genotype_code_3'],
+            rec['Crop_name_1'],
+            rec['Crop_name_2'],
+            rec['Crop_name_3'],
+            rec['WS'],
+            rec['Dem_class'],
+            rec['Date_IC'],
+            SOIL_HORIZON_ADJUSTED,
+            rec['Planting_date_1'],
+            rec['Planting_date_2'],
+            rec['Planting_density_1'],
+            rec['Planting_density_2'],
+            rec['Planting_method_1'],
+            rec['Planting_method_2'],
+            rec['Planting_distribution_1'],
+            rec['Planting_distribution_2'],
+            rec['Planting_row_spacing_1'],
+            rec['Planting_row_spacing_2'],
+            rec['Planting_depth_1'],
+            rec['Planting_depth_2'],
+            rec['Irrigation_efficiency'],
+            rec['Irrigation_date_1'],
+            rec['Irrigation_date_2'],
+            rec['Irrigation_date_3'],
+            rec['Irrigation_date_4'],
+            rec['Irrigation_date_5'],
+            rec['Irrigation_operation'],
+            rec['Irrigation_value_1'],
+            rec['Irrigation_value_2'],
+            rec['Irrigation_value_3'],
+            rec['Irrigation_value_4'],
+            rec['Irrigation_value_5'],
+            rec['Fertilization_date_1'],
+            rec['Fertilization_date_2'],
+            rec['Fertilization_type_1'],
+            rec['Fertilization_type_2'],
+            rec['Fertilization_operation_1'],
+            rec['Fertilization_operation_2'],
+            rec['Fertilization_depth_1'],
+            rec['Fertilization_depth_2'],
+            rec['Fertilization_nitrogen_quantity_1'],
+            rec['Fertilization_nitrogen_quantity_2'],
+            rec['tillage_day_1'],
+            rec['tillage_day_2'],
+            rec['Harvest_date_1'],
+            rec['Harvest_date_2'],
+            rec['Harvest_date_3'],
+            rec['HCOM_1'],
+            rec['HCOM_2'],
+            rec['HCOM_3'],
+            rec['HSIZE_1'],
+            rec['HSIZE_2'],
+            rec['HSIZE_3']
         )
         with open(sqx_path, "w") as f:
             f.write(txt)
